@@ -1,9 +1,23 @@
-"use strict";
-
-const uuid = require("uuid");
-
+'use strict';
+const {
+  Model,
+  
+} = require('sequelize');
+const uuid = require('uuid')
 module.exports = (sequelize, DataTypes) => {
-  const model = sequelize.define("User", {
+  class User extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      User.hasMany(models.Borrows, {
+        foreignKey: 'user_id', // The foreign key in the Borrows table
+      });
+    }
+  }
+  User.init({
     user_id: {
       primaryKey: true,
       type: DataTypes.UUID,
@@ -29,13 +43,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.DATE,
     },
+  }, {
+    sequelize,
+    modelName: 'User',
+    tableName: 'User', // Specify the correct table name here
+    // Remove the timestamps option
   });
-
-  model.associate = function (models) {
-      // Define association with Borrows
-      User.hasMany(models.Borrows, {
-        foreignKey: 'user_id', // The foreign key in the Borrows table
-      });
-  };
-  return model;
+  return User;
 };

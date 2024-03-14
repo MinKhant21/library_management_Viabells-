@@ -10,7 +10,7 @@ module.exports = {
         defaultValue: () => uuid.v4(),
       },
       category_id: {
-        type: Sequelize.DataTypes.INTEGER, 
+        type: Sequelize.STRING, 
         allowNull: false,
       },
       title: {

@@ -30,11 +30,11 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: () => uuid.v4(),
       },
       user_id: {
-        type: DataTypes.INTEGER, 
+        type: DataTypes.STRING, 
         allowNull: false,
       },
       book_id: {
-        type: DataTypes.INTEGER, 
+        type: DataTypes.STRING, 
         allowNull: false,
       },
       status: {

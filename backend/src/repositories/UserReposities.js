@@ -1,9 +1,12 @@
 const { User } = require("../models");
-const { hashPassword } = require("../helper/auth");
+const {
+  hashPassword,
+  generateToken,
+  comparePassword,
+} = require("../helper/auth");
 const UserReposities = {
   create: async (data) => {
     const { name, email, password } = data;
-
     // Check if user already exists
     const existingUser = await User.findOne({ where: { email: email } });
     if (existingUser) {
@@ -26,6 +29,43 @@ const UserReposities = {
           name: user.name,
           email: user.email,
         },
+      };
+    } catch (error) {
+      return {
+        status: "500",
+        message: "Internal Server Error",
+        error: error.message,
+      };
+    }
+  },
+  login: async (data) => {
+    try {
+      let { email, password } = data;
+      let user = await User.findOne({ where: { email: email } });
+      if (!user) {
+        return {
+          status: "404",
+          message: "User not exists",
+        };
+      }
+      let Token = await generateToken(user);
+      let result = await comparePassword(password, user.password);
+      if (result != true) {
+        return {
+          status: "503",
+          message: "password mismatch",
+        };
+      }
+      return {
+        status: "200",
+        message: "User Successfully Login",
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+        token: Token,
       };
     } catch (error) {
       return {

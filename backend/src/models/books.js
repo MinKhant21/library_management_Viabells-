@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: () => uuid.v4(),
       },
       category_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       title: {

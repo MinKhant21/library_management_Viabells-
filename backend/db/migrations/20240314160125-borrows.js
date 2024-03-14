@@ -10,11 +10,11 @@ module.exports = {
         defaultValue: () => uuid.v4(),
       },
       user_id: {
-        type: Sequelize.DataTypes.INTEGER, 
+        type: Sequelize.STRING, 
         allowNull: false,
       },
       book_id: {
-        type: Sequelize.DataTypes.INTEGER, 
+        type: Sequelize.STRING, 
         allowNull: false,
       },
       status: {

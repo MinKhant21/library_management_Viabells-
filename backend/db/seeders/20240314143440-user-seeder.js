@@ -14,7 +14,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-     await queryInterface.bulkInsert('Users', [{
+     await queryInterface.bulkInsert('User', [{
       user_id : uuid.v4(),
       name: 'librarian',
       email:'librarian@gmail.com',
