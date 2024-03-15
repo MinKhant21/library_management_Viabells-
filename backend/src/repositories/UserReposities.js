@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User,Category } = require("../models");
 const {
   hashPassword,
   generateToken,
@@ -95,5 +95,21 @@ const UserReposities = {
       };
     }
   },
+  getCategoryList: async() => {
+    try {
+      let category = await Category.findAll();
+      return {
+        status: "200",
+        message: "Category List",
+        data: category,
+      };
+    } catch (error) {
+      return {
+        status: "500",
+        message: "Internal Server Error",
+        error: error.message,
+      };
+    }
+  }
 };
 module.exports = UserReposities;

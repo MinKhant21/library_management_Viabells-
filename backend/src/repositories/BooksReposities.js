@@ -50,6 +50,31 @@ const BooksReposities = {
       };
     }
   },
+  getOne: async (data) => {
+    console.log(data)
+    let id = data.query.id;
+    try {
+      let book = await Books.findOne({
+        where:{book_id:id},
+        include: {
+          model: Category,
+          attributes: ["category_id", "name"],
+          as: "category",
+        },
+      });
+      return {
+        status: "200",
+        message: "Book List",
+        data: book,
+      };
+    } catch (error) {
+      return {
+        status: "500",
+        message: "Internal Server Error",
+        error: error.message,
+      };
+    }
+  },
   update: async (data) => {
     let id = data.query.id;
     // let {title,category_id} = data.body

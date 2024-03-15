@@ -9,6 +9,10 @@ const BooksController = {
           let data = await BooksReposities.getAll();
           res.json(data)
      },
+     getOne : async (req,res) => {
+          let data = await BooksReposities.getOne(req);
+          res.json(data)
+     },
      update : async (req,res) => {
           let data = await BooksReposities.update(req);
           res.json(data)

@@ -12,6 +12,10 @@ const UserController = {
     let data = await UserReposities.login(req.body);
     res.json(data);
   },
+  getCategoryList: async (req, res) => {
+    let data = await UserReposities.getCategoryList();
+    res.json(data);
+  },
 
 };
 
