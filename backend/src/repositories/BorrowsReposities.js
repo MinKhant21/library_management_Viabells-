@@ -72,6 +72,68 @@ const BorrowsReposities = {
                error: error.message,
              };
      }
+  },
+  myBorrowList:async (data) => {
+    let user_id = data.user.user_id;
+    
+    try {
+      let booksList = await Borrows.findAll({
+        where: { user_id: user_id, status: "0" },
+        include:[
+          {
+               model: Books,
+               attributes: ["book_id", "title"],
+               as: "book",
+          },
+          {
+               model: User,
+               attributes: ["user_id", "name","email"],
+               as: "user",
+          },
+     ]
+      });
+      return {
+        status: "200",
+        data:booksList,
+        message: "Book Borrow List ",
+      };
+    } catch (error) {
+      return {
+        status: "500",
+        message: "Internal Server Error",
+        error: error.message,
+      };
+    }
+  },
+  updateBorrow:async(data) => {
+    let user_id = data.user.user_id;
+    let id = data.query.id;
+    try {
+      const borrowRecord = await Borrows.findOne({
+        where: { borrow_id: id } // Filter criteria
+      });
+      if (borrowRecord) {
+        // If the record is found, update its status
+        const updatedRecord = await borrowRecord.update({ status: 1 });
+        return {
+          status: "200",
+          message: "Book Borrow Updated ",
+        };
+        // console.log("Status updated successfully:", updatedRecord);
+      } else {
+        // If no record is found with the specified borrow_id
+        return {
+          status: "200",
+          message: "Borrow record not found ",
+        };
+      }
+    } catch (error) {
+      return {
+        status: "500",
+        message: "Internal Server Error",
+        error: error.message,
+      };
+    }
   }
 };
 
