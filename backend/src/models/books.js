@@ -10,8 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Books.belongsTo(models.Category, {
-        foreignKey: "category_id",
-        onDelete: "CASCADE",
+        foreignKey: 'category_id',
+        onDelete: 'CASCADE',
+        as: 'category'
       });
       // Define association with Borrows
       Books.hasMany(models.Borrows, {

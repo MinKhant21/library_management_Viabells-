@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const dotenv = require("dotenv");
 const userRoutes = require("./src/routes/user");
 const booksRoutes = require("./src/routes/books");
+const borrowsRoutes = require("./src/routes/borrows");
 const {verifyToken,checkUserRole} = require("./src/middleware/authMiddleware");
 dotenv.config();
 const port = process.env.PORT || 8000;
@@ -23,6 +24,10 @@ app.use(express.json());
 app.use("/api/user", userRoutes);
 
 app.use("/api/books", verifyToken,booksRoutes);
+app.use("/api/borrows", verifyToken,borrowsRoutes);
+
+// app.use("/api/librarian/getUsers", verifyToken,borrowsRoutes);
+
 
 app.listen(port, () => {
   console.log(`Server is Fire at http://localhost:${port}`);

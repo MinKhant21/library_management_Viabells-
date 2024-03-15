@@ -1,5 +1,4 @@
-const { Books } = require("../models");
-
+const { Books, Category } = require("../models/"); // Import your Books model
 const BooksReposities = {
   add: async (data) => {
     const { category_id, title } = data;
@@ -11,7 +10,10 @@ const BooksReposities = {
       };
     }
     try {
-      const book = await Books.create({category_id: category_id, title:title });
+      const book = await Books.create({
+        category_id: category_id,
+        title: title,
+      });
 
       return {
         status: "200",
@@ -26,9 +28,15 @@ const BooksReposities = {
       };
     }
   },
-  getAll:async () => {
+  getAll: async () => {
     try {
-      let booksList = await Books.findAll();
+      let booksList = await Books.findAll({
+        include: {
+          model: Category,
+          attributes: ["category_id", "name"],
+          as: "category",
+        },
+      });
       return {
         status: "200",
         message: "Book List",
@@ -42,8 +50,8 @@ const BooksReposities = {
       };
     }
   },
-  update:async (data)=> {
-    let id = data.query.id
+  update: async (data) => {
+    let id = data.query.id;
     // let {title,category_id} = data.body
     const existingBook = await Books.findOne({ where: { book_id: id } });
     if (!existingBook) {
@@ -53,7 +61,7 @@ const BooksReposities = {
       };
     }
     try {
-      let book = await Books.update(data.body,{where:{ book_id: id }});
+      let book = await Books.update(data.body, { where: { book_id: id } });
       return {
         status: "200",
         message: "Book updated",
@@ -66,7 +74,7 @@ const BooksReposities = {
       };
     }
   },
-  delete:async (id)=> {
+  delete: async (id) => {
     const existingBook = await Books.findOne({ where: { book_id: id } });
     if (!existingBook) {
       return {
@@ -75,7 +83,7 @@ const BooksReposities = {
       };
     }
     try {
-      let book = await Books.destroy({where:{ book_id: id }});
+      let book = await Books.destroy({ where: { book_id: id } });
       return {
         status: "200",
         message: "Book Deleted",
@@ -87,6 +95,6 @@ const BooksReposities = {
         error: error.message,
       };
     }
-  }
+  },
 };
 module.exports = BooksReposities;

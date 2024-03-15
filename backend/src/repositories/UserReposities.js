@@ -4,6 +4,7 @@ const {
   generateToken,
   comparePassword,
 } = require("../helper/auth");
+const { where } = require("sequelize");
 const UserReposities = {
   create: async (data) => {
     const { name, email, password } = data;
@@ -66,6 +67,25 @@ const UserReposities = {
           role: user.role,
         },
         token: Token,
+      };
+    } catch (error) {
+      return {
+        status: "500",
+        message: "Internal Server Error",
+        error: error.message,
+      };
+    }
+  },
+  getAll: async () => {
+    try {
+      let users = await User.findAll({
+        where: { role: "user" },
+        attributes: ["user_id", "name", "email"],
+      });
+      return {
+        status: "200",
+        message: "Users List",
+        data: users,
       };
     } catch (error) {
       return {
