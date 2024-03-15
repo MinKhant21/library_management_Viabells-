@@ -21,6 +21,7 @@ exports.comparePassword = async (password, hashPassword) => {
 
 exports.generateToken = (data) => {
      let user = {
+          user_id : data.user_id,
           name : data.name,
           email : data.name,
           role : data.role

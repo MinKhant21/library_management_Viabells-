@@ -13,12 +13,14 @@ module.exports = (sequelize, DataTypes) => {
         Borrows.belongsTo(models.User, {
           foreignKey: 'user_id', // The foreign key in the Borrows table
           onDelete: 'CASCADE', // Optional: Cascade delete if user is deleted
+          as:'user'
         });
   
         // Define association with Books
         Borrows.belongsTo(models.Books, {
           foreignKey: 'book_id', // The foreign key in the Borrows table
           onDelete: 'CASCADE', // Optional: Cascade delete if book is deleted
+          as:'book'
         });
     }
   }
